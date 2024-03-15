@@ -24,3 +24,6 @@ lt.make_sandwich("calculated_predissociation_lifetimes") #.blt file extension ad
 
 # load a solution from a *.blt file
 lt = blt.read_blt("calculation_predissociation_lifetimes.blt")
+
+# see dataframe containing all information about lifetimes and fits
+lt.blt
