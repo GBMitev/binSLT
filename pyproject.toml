@@ -7,12 +7,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pandas = "^2.0.2"
-numpy = "^1.24.3"
-matplotlib = "^3.7.1"
-scipy = "^1.10.1"
+pandas = "^2.2.1"
+numpy = "^1.26.4"
+matplotlib = "^3.8.3"
+scipy = "^1.12.0"
 quantiphy = "^2.19"
-tqdm = "^4.65.0"
+tqdm = "^4.66.2"
 uncertainties = "^3.1.7"
 pandarallel = "^1.6.5"
 
