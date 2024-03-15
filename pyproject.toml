@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "binslt"
+version = "0.1.0"
+description = ""
+authors = ["GBMitev <georgibogdanovmitev@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^2.0.2"
+numpy = "^1.24.3"
+matplotlib = "^3.7.1"
+scipy = "^1.10.1"
+quantiphy = "^2.19"
+tqdm = "^4.65.0"
+uncertainties = "^3.1.7"
+pandarallel = "^1.6.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
