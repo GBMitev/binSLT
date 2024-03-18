@@ -1,7 +1,10 @@
 # binSLT
 Contains: 
+
   Description of the code
+  
   Future updates
+  
   How to install
   
 Description:
