@@ -1,7 +1,7 @@
 # %%
 from .dependencies import *
 
-def get_histogram_data(E, bins, Centered = True):
+def get_histogram_data(E, bins, Centered = True, **kwargs):
     '''
     Returns Histogram plot data for distribution of Energy levels of a given state. 
 
@@ -18,8 +18,8 @@ def get_histogram_data(E, bins, Centered = True):
 
     Mean = E.mean()    
     E = E-Mean if Centered==True else E
-
-    Count, Edges = np.histogram(E, bins=bins,density=True)
+    density = kwargs.get("density", True)
+    Count, Edges = np.histogram(E, bins=bins,density=density)
 
     return Count, Edges, Mean
 
@@ -39,7 +39,7 @@ def get_xrange(Edges):
     Centers = get_centers(Edges)
     return np.linspace(min(Centers), max(Centers), 1000)
 
-def plot_histogram(count,edges, centered = True):
+def plot_histogram(count,edges, centered = True, **bar_kwargs):
     '''
     Plots Histogram from GetHistogram
     
@@ -49,7 +49,7 @@ def plot_histogram(count,edges, centered = True):
         Centered    = Center on mean        : bool
     '''
     plt.figure(figsize = (9,7))
-    plt.bar(edges[:-1], count,width=np.diff(edges),color="black", align="edge")
+    plt.bar(edges[:-1], count,width=np.diff(edges),color="black", align="edge", **bar_kwargs)
 
     xlabel = r"$E-\langle E \rangle$ / cm $^{-1}$" if centered == True else r"$E$"
     plt.xlabel(xlabel, fontsize = 20)
