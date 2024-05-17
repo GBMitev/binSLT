@@ -29,10 +29,10 @@ def lifetime_to_fwhm(lifetime):
     Outputs:
         fwhm = energy profile width (cm-1) : value (float)
     """
-    hbar = 1.054571817e-34
+    hbar = 1.054571817e-34 # [m^2kg/s]
     gamma = hbar/lifetime
 
-    fwhm  = gamma/1.98630e-23
+    fwhm  = gamma/1.98630e-23# converting to J [kgm^2s^-2]
     return fwhm
 
 def lifetime(df,J,v,ef,nsigma,bins, moct="mean",LE=None):
