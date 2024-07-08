@@ -1,7 +1,10 @@
 # binSLT
 Contains: 
+
   Description of the code
+  
   Future updates
+  
   How to install
   
 Description:
@@ -15,8 +18,19 @@ State labels currently constrained to J, v, and e/f parity but will be expanded 
 How to install:
 This method works for linux machines and should work for Mac OS. If you are running Windows, Windows Subsystem for Linux is recomended here. 
 
-In terminal create a directory named 'binsLT' and download binsLT, dist, and pyproject.toml. Enter this directory and run in terminal:
+In terminal create a directory named 'binslt' and download this repository. Enter this directory, running:
+
+  **$ls**
+
+Should return:
+
+  **binslt  dist  examples**  pyproject.toml  README.md
+
+and run in terminal:
+
   **$pip install .**
+
+Don't skip the "**.**"
 
 If you wish to make changes to the code while using it:
 
