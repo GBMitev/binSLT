@@ -2,7 +2,7 @@
 from .dependencies      import *
 from .wrangling         import le_wrt_duo,filter, cutoff
 from .lifetime          import lifetime_over_bins, statistical_lifetime
-from .histogram         import get_histogram_data
+from .histogram         import get_histogram_data, gamma_estimate
 from .fitting           import fit_histogram
 
 class FitParams:
@@ -270,7 +270,7 @@ def read_blt(fname):
     Object.__dict__ = Lvls.__dict__
     return Object
 
-def convergence_testing(df, Duo, J, v, ef, lock, load, bins,window,nsigma=None):
+def convergence_testing(df, Duo, J, v, ef, lock, load_start, bins,window,nsigma=None):
     '''
     Convergence testing for a given energy level with quantum numbers J, v, ef (currently only supports 2Sigma states)
 
@@ -297,10 +297,16 @@ def convergence_testing(df, Duo, J, v, ef, lock, load, bins,window,nsigma=None):
         L_init,E_init = cutoff(*le_wrt_duo(df, Duo, J, v, ef, lock),nsigma,moct="mean")
         lifetimes = []
 
+        load = [num for num, i in enumerate(L_init) if i >= load_start]
+        
         for i in load:
             try:
                 L,E = L_init[:i],E_init[:i]
                 count, edges, _ = get_histogram_data(E,bins)
+                
+                # fwhm_guess  = gamma_estimate(edges, count, Plot = False)
+                # x0_Guess    = 0
+
                 _, lt = fit_histogram(count, edges)
                 lifetimes.append(lt*1e12)
             except:
@@ -318,4 +324,42 @@ def convergence_testing(df, Duo, J, v, ef, lock, load, bins,window,nsigma=None):
         # print("done")
         return percentage_loaded,lifetimes, moving_average.to_numpy(),moving_var.to_numpy()
     except:
-        return [np.nan], [np.nan], [np.nan], [np.nan], [np.nan], [np.nan]
+        return [np.nan], [np.nan], [np.nan], [np.nan]
+
+   
+def Plot_Convergence(percentage_loaded, lifetimes, moving_average, moving_var):
+    fig, ax = plt.subplots(figsize = (9,9))
+    ax.plot(percentage_loaded,lifetimes, "ko-", linewidth = 3, label = "Lifetime")
+    
+    moving_statistics = pd.DataFrame(zip(percentage_loaded,moving_average,moving_var), columns = ["percentage_loaded", "moving_average","moving_var"])
+    moving_statistics = moving_statistics[moving_statistics["moving_average"].isnull()==False]
+
+    percentage_loaded       = moving_statistics["percentage_loaded"].to_numpy()
+    moving_average      = moving_statistics["moving_average"].to_numpy()
+    moving_var          = moving_statistics["moving_var"].to_numpy()
+
+    upper = moving_average + moving_var
+    lower = moving_average - moving_var
+
+    ax.fill_between(percentage_loaded,lower, upper, alpha = 0.2, color= "gray")
+    
+    ax.plot(percentage_loaded, upper, "r-", linewidth = 2, label = "Moving Standard Deviation")
+    ax.plot(percentage_loaded, lower, "r-", linewidth = 2)
+    ax.plot(percentage_loaded, moving_average, "y--", linewidth = 3, label = "Moving Average")
+
+    ax.set_xlabel(r"Percentage Loaded ($P$) / %", fontsize = 20)
+    ax.set_ylabel("Lifetime / ps", fontsize = 20)
+
+    final_value = moving_average[-1]
+    final_var   = moving_var[-1]
+
+    plt.grid(which = "both")
+
+    plt.xticks(fontsize = 20)
+    plt.yticks(fontsize = 20)
+
+    ax.legend(loc = "best",fontsize = 15)
+    plt.xticks(fontsize = 20)
+    plt.yticks(fontsize = 20)
+    plt.tight_layout()
+    return final_value, final_var/final_value, final_var, ax

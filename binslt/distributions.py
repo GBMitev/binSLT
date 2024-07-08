@@ -20,7 +20,7 @@ def lorentzian(x: list,x0: float,Gamma: float):
 
     return Lorentz
 
-def gaussian(x:list, mu:float, sigma:float):
+def gaussian(x:list, mu:float, sigma:float, scale_factor = 1):
     '''
     Returns Gaussian distribution
     
@@ -32,6 +32,6 @@ def gaussian(x:list, mu:float, sigma:float):
     Outputs:
         Gauss      = Gaussian Distribution          : list  (float)
     '''
-    Gauss = 1/(sigma*np.sqrt(2*np.pi))*np.exp(-0.5*((x-mu)/sigma)**2)
+    Gauss = 1/(sigma*np.sqrt(2*np.pi))*np.exp(-0.5*((x-mu)/sigma)**2)*scale_factor
     return Gauss
 # %%
