@@ -1,0 +1,9 @@
+# --- Required Packages for binSLT
+pandas
+numpy
+matplotlib
+scipy
+quantiphy
+tqdm
+uncertainties
+pandarallel
