@@ -18,6 +18,7 @@ dependencies = [
   "tqdm",
   "uncertainties",
   "pandarallel",
+  "pytest",
 ]
 
 [project.optional-dependencies]
