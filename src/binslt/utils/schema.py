@@ -15,7 +15,19 @@ class Schema(Enum):
         "Sigma = Molecular Spin Angular Momentum\n"
         "Omega = Total Angular Momentum\n"
         ,
-        ["NN","E","gns","J","tau","e/f","Manifold","v","Lambda","Sigma","Omega"]
+        {
+            "NN"      : int   ,
+            "E"       : float ,
+            "gns"     : float ,
+            "J"       : float ,
+            "tau"     : str   ,
+            "e/f"     : str   ,
+            "Manifold": str   ,
+            "v"       : int   ,
+            "Lambda"  : float ,
+            "Sigma"   : float ,
+            "Omega"   : float ,
+        }
         )
 
     def describe(self):
